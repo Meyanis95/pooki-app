@@ -17,9 +17,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sinaxyz.pooki"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,7 +34,10 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "apiUrl": "process.env.REACT_APP_BASE_URL"
+      "apiUrl": "process.env.REACT_APP_BASE_URL",
+      "eas": {
+        "projectId": "4af70352-4906-42e8-bdaf-917b3e982c7e"
+      }
     }
   }
 }
