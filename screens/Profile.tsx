@@ -16,7 +16,7 @@ interface AboutProps {
   name: string;
 }
 
-export const About: React.FunctionComponent<AboutProps> = ({
+export const Profile: React.FunctionComponent<AboutProps> = ({
   navigation,
   name,
 }) => {
@@ -34,10 +34,9 @@ export const About: React.FunctionComponent<AboutProps> = ({
           >
             <FontAwesome5 name="bars" size={24} color="#161924" />
           </TouchableOpacity>
+
           <View style={styles.box}>
-            <Text style={styles.text}>
-              Pooki is notification app linked to your wallet!
-            </Text>
+            <Text style={styles.text}>Your profile page</Text>
           </View>
         </SafeAreaView>
       </View>

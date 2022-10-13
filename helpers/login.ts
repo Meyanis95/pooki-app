@@ -14,7 +14,7 @@ export const login = async (address: string) => {
   };
 
   const response: ResponseType | void = await axios
-    .get(`${BASE_URL}/login`, options)
+    .get(`${BASE_URL}login`, options)
     .then(async function (response) {
       const { id, newaccount } = response.data;
       storeData("user_id", id);

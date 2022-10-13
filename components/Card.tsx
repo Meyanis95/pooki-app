@@ -7,25 +7,44 @@ import {
   ViewStyle,
 } from "react-native";
 import React from "react";
+import { timeSince } from "../helpers/timeSince";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 interface CardProps {
   logo?: string;
   content: string;
+  date: string;
 }
 
+const WalletIcon = () => {
+  return (
+    <View style={styles.icon}>
+      <SimpleLineIcons name="wallet" size={20} color="black" />
+    </View>
+  );
+};
+
 export const Card: React.FunctionComponent<CardProps> = ({
-  logo = "https://images.unsplash.com/photo-1664448288134-669f14c3ebbb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
+  logo,
   content,
+  date,
 }) => {
   return (
     <View style={styles.container as unknown as StyleProp<ViewStyle>}>
-      <Image
-        source={{
-          uri: logo,
-        }}
-        style={styles.image}
-      />
-      <Text style={{ flex: 1 }}>{content}</Text>
+      {logo ? (
+        <Image
+          source={{
+            uri: logo,
+          }}
+          style={styles.image}
+        />
+      ) : (
+        <WalletIcon />
+      )}
+      <View style={styles.textContainer}>
+        <Text style={styles.date}>{timeSince(date)}</Text>
+        <Text>{content}</Text>
+      </View>
     </View>
   );
 };
@@ -41,15 +60,47 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(235, 235, 235, 0.2)",
     width: "100%",
     height: 80,
-    margin: 2,
+    marginVertical: 1,
+    padding: 8,
+  },
+  textContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+    marginVertical: 1,
   },
   image: {
     width: 40,
     height: 40,
     borderRadius: 100,
-    margin: 10,
+    margin: 5,
     shadowRadius: 4,
     shadowColor: "rgba(0, 0, 0, 0.2)",
     shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+  },
+  icon: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 100,
+    margin: 5,
+    shadowRadius: 4,
+    backgroundColor: "#FFF",
+    shadowColor: "rgba(0, 0, 0, 0.2)",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+  },
+  date: {
+    position: "absolute",
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    color: "#878585",
+    fontSize: 12,
+    right: 0,
+    top: 0,
   },
 });

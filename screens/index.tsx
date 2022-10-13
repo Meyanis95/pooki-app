@@ -3,6 +3,7 @@ import { Screen } from "./Screen";
 import { Feed } from "./Feed";
 import { About } from "./About";
 import { Test } from "./Test";
+import { Profile } from "./Profile";
 
 interface ScreenProps {
   navigation: any;
@@ -10,7 +11,7 @@ interface ScreenProps {
 
 export const ProfileScreen: React.FunctionComponent<ScreenProps> = ({
   navigation,
-}) => <Screen navigation={navigation} name="Profile" />;
+}) => <Profile navigation={navigation} name="Profile" />;
 export const AboutScreen: React.FunctionComponent<ScreenProps> = ({
   navigation,
 }) => <About navigation={navigation} name="About" />;

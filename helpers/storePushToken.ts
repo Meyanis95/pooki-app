@@ -7,7 +7,7 @@ export async function storePushToken(pushToken: string, address: string) {
   };
 
   const response = await axios
-    .get(`${BASE_URL}/store_push_token`, options)
+    .get(`${BASE_URL}store_push_token`, options)
     .then(async function (response) {
       const { data } = response.data;
       return { data };

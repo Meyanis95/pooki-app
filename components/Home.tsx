@@ -39,15 +39,15 @@ const DrawerNavigator = createDrawerNavigator(
         ),
       },
     },
-    TestScreen: {
-      screen: TestScreen,
-      navigationOptions: {
-        title: "Test",
-        drawerIcon: ({ tintColor }) => (
-          <Feather name="info" size={16} color={tintColor} />
-        ),
-      },
-    },
+    // TestScreen: {
+    //   screen: TestScreen,
+    //   navigationOptions: {
+    //     title: "Test",
+    //     drawerIcon: ({ tintColor }) => (
+    //       <Feather name="info" size={16} color={tintColor} />
+    //     ),
+    //   },
+    // },
   },
   {
     contentComponent: (props) => <SideBar {...props} />,

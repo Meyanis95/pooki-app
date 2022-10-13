@@ -85,9 +85,10 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
 
   const fetchNotifs = async () => {
     const address: any = await AsyncStorage.getItem("user_address");
-    setUserAddress(address);
-    const allNotifs = await getNotifications(address);
+    setUserAddress(address.toLowerCase());
+    const allNotifs = await getNotifications(address.toLowerCase());
     if (allNotifs) {
+      setNotifications([]);
       allNotifs.map((notif: Notif) =>
         setNotifications((notifications) => [...notifications, notif])
       );
@@ -98,7 +99,9 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
     fetchNotifs();
   }, []);
 
-  const renderItem = ({ item }: any) => <Card content={item.content} />;
+  const renderItem = ({ item }: any) => (
+    <Card content={item.content} date={item.created_at} />
+  );
 
   return (
     <ImageBackground
@@ -115,11 +118,20 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
             <FontAwesome5 name="bars" size={24} color="#161924" />
           </TouchableOpacity>
           {notifications?.length > 0 ? (
-            <FlatList
-              data={notifications}
-              renderItem={renderItem}
-              keyExtractor={(item: any) => item.id}
-            ></FlatList>
+            <View
+              style={{
+                flex: 1,
+                alignContent: "center",
+                justifyContent: "center",
+                padding: 4,
+              }}
+            >
+              <FlatList
+                data={notifications.sort((a, b) => b.id - a.id)}
+                renderItem={renderItem}
+                keyExtractor={(item: any) => item.id}
+              ></FlatList>
+            </View>
           ) : (
             <NoItems />
           )}

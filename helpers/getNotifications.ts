@@ -7,8 +7,11 @@ export const getNotifications = async (address: string) => {
     params: { data: address },
   };
 
+  // axios.defaults.headers.common["Accept"] = "application/json";
+  // axios.defaults.headers.common["Content-Type"] = "application/json";
+
   const response = await axios
-    .get(`${BASE_URL}/get_notifications`, options)
+    .get(`${BASE_URL}get_notifications`, options)
     .then(async function (response) {
       const { data } = response.data;
       console.log(response);
