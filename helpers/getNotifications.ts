@@ -14,8 +14,8 @@ export const getNotifications = async (address: string) => {
     .get(`${BASE_URL}get_notifications`, options)
     .then(async function (response) {
       const { data } = response.data;
-      console.log(response);
-      console.log("data received", data);
+      //console.log(response);
+      //console.log("data received", data);
       return data;
     })
     .catch(function (error) {

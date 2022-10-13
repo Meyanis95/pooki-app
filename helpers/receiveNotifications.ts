@@ -3,14 +3,13 @@ import { sendPushNotification } from "./sendPushNotification";
 
 export async function receiveNotifications() {
   try {
-    const mySubscription = await supabase
-      .channel("public:notifications")
+    const mySubscription = supabase
+      .channel("*")
       .on(
-        "postgres_changes",
+        "public:notifications",
         { event: "INSERT", schema: "public", table: "notifications" },
         (payload: any) => {
           console.log("Change received!", payload);
-          //sendPushNotification(expoPushToken);
         }
       )
       .subscribe();

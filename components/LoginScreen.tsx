@@ -30,14 +30,15 @@ const styles = StyleSheet.create({
   center: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
   },
   image: {
     flex: 1,
     justifyContent: "center",
   },
   text: {
-    fontSize: 20,
-    fontWeight: "500",
+    fontFamily: "DMMono-Light",
+    fontSize: 30,
+    marginBottom: 80,
   },
 });

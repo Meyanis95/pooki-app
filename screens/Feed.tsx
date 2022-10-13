@@ -18,6 +18,7 @@ import { NoItems } from "../components";
 import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "../helpers/registerForPushNotifications";
 import { storePushToken } from "../helpers/storePushToken";
+import { supabase } from "../helpers/supabase";
 
 interface FeedProps {
   navigation: any;
@@ -85,6 +86,7 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
 
   const fetchNotifs = async () => {
     const address: any = await AsyncStorage.getItem("user_address");
+    //const address = "0xcB7eA0eC36670AA13088C4372fe8636D4D2b574f";
     setUserAddress(address.toLowerCase());
     const allNotifs = await getNotifications(address.toLowerCase());
     if (allNotifs) {
@@ -98,6 +100,43 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
   useEffect(() => {
     fetchNotifs();
   }, []);
+
+  function receiveNotifications() {
+    try {
+      const mySubscription = supabase
+        .channel(
+          `public:notifications:recipient_address=eq.0xcb7ea0ec36670aa13088c4372fe8636d4d2b574f`
+        )
+        .on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "notifications",
+            filter:
+              "recipient_address=eq.0xcb7ea0ec36670aa13088c4372fe8636d4d2b574f",
+          },
+          (payload: any) => {
+            console.log("payload ===> ", payload);
+            setNotifications((notifications) => [
+              ...notifications,
+              payload.new,
+            ]);
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(mySubscription);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    receiveNotifications();
+  });
 
   const renderItem = ({ item }: any) => (
     <Card content={item.content} date={item.created_at} />
