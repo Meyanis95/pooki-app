@@ -32,7 +32,6 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "apiUrl": "process.env.REACT_APP_BASE_URL",
       "eas": {
         "projectId": "4af70352-4906-42e8-bdaf-917b3e982c7e"
       }

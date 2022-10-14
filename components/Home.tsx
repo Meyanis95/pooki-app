@@ -5,7 +5,7 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 import { Feather } from "@expo/vector-icons";
 
-import { ProfileScreen, AboutScreen, FeedScreen, TestScreen } from "../screens";
+import { ProfileScreen, AboutScreen, FeedScreen } from "../screens";
 import { View, StyleSheet } from "react-native";
 
 import SideBar from "./SideBar";

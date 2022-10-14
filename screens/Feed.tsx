@@ -14,7 +14,6 @@ import { NoItems } from "../components";
 import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "../helpers/registerForPushNotifications";
 import { storePushToken } from "../helpers/storePushToken";
-import { supabase } from "../helpers/supabase";
 import { useHeaderHeight } from "@react-navigation/elements";
 
 interface FeedProps {

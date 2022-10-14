@@ -2,7 +2,6 @@ import React from "react";
 import { Screen } from "./Screen";
 import { Feed } from "./Feed";
 import { About } from "./About";
-import { Test } from "./Test";
 import { Profile } from "./Profile";
 
 interface ScreenProps {
@@ -18,6 +17,3 @@ export const AboutScreen: React.FunctionComponent<ScreenProps> = ({
 export const FeedScreen: React.FunctionComponent<ScreenProps> = ({
   navigation,
 }) => <Feed navigation={navigation} name="Feed" />;
-export const TestScreen: React.FunctionComponent<ScreenProps> = ({
-  navigation,
-}) => <Test navigation={navigation} name="Test" />;

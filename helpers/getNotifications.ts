@@ -1,14 +1,10 @@
 import axios from "axios";
-import Constants from "expo-constants";
 import { BASE_URL } from "@env";
 
 export const getNotifications = async (address: string) => {
   const options = {
     params: { data: address },
   };
-
-  // axios.defaults.headers.common["Accept"] = "application/json";
-  // axios.defaults.headers.common["Content-Type"] = "application/json";
 
   const response = await axios
     .get(`${BASE_URL}get_notifications`, options)
