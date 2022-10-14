@@ -1,17 +1,13 @@
 import {
-  Text,
   View,
   ImageBackground,
   StyleSheet,
   SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
   FlatList,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import pooki_yellow_background from "../assets/pooki_green_background.png";
 import { Card } from "../components/Card";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { getNotifications } from "../helpers/getNotifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NoItems } from "../components";
@@ -35,21 +31,6 @@ interface Notif {
   type_id: number;
 }
 
-const DATA = [
-  {
-    id: 1,
-    content: "coucou toi !!",
-  },
-  {
-    id: 2,
-    content: "coucou toi, t'es sympa !!",
-  },
-  {
-    id: 3,
-    content: "coucou toi !!",
-  },
-];
-
 export const Feed: React.FunctionComponent<FeedProps> = ({
   navigation,
   name,
@@ -60,6 +41,7 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
   const notificationListener: any = useRef();
   const responseListener: any = useRef();
   const [userAddress, setUserAddress] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
   const headerHeight = useHeaderHeight();
   useEffect(() => {
     registerForPushNotificationsAsync().then((token: any) => {
@@ -103,42 +85,11 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
     fetchNotifs();
   }, []);
 
-  function receiveNotifications() {
-    try {
-      const mySubscription = supabase
-        .channel(
-          `public:notifications:recipient_address=eq.0xcb7ea0ec36670aa13088c4372fe8636d4d2b574f`
-        )
-        .on(
-          "postgres_changes",
-          {
-            event: "INSERT",
-            schema: "public",
-            table: "notifications",
-            filter:
-              "recipient_address=eq.0xcb7ea0ec36670aa13088c4372fe8636d4d2b574f",
-          },
-          (payload: any) => {
-            console.log("payload ===> ", payload);
-            setNotifications((notifications) => [
-              ...notifications,
-              payload.new,
-            ]);
-          }
-        )
-        .subscribe();
-
-      return () => {
-        supabase.removeChannel(mySubscription);
-      };
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    receiveNotifications();
-  });
+  const onRefresh = async () => {
+    setIsFetching(true);
+    await fetchNotifs();
+    setIsFetching(false);
+  };
 
   const renderItem = ({ item }: any) => (
     <Card content={item.content} date={item.created_at} />
@@ -165,6 +116,10 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
               data={notifications.sort((a, b) => b.id - a.id)}
               renderItem={renderItem}
               keyExtractor={(item: any) => item.id}
+              onRefresh={() => {
+                onRefresh();
+              }}
+              refreshing={isFetching}
             ></FlatList>
           </View>
         ) : (
