@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import pooki_green_background from "../assets/pooki_green_background.png";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 interface AboutProps {
   navigation: any;
@@ -20,20 +20,16 @@ export const About: React.FunctionComponent<AboutProps> = ({
   navigation,
   name,
 }) => {
+  const headerHeight = useHeaderHeight();
   return (
     <ImageBackground
       source={pooki_green_background}
       resizeMode="cover"
       style={styles.image}
     >
+      <View style={{ height: headerHeight }}></View>
       <View style={styles.container}>
         <SafeAreaView style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={{ alignItems: "flex-end", margin: 16 }}
-            onPress={navigation.openDrawer}
-          >
-            <FontAwesome5 name="bars" size={24} color="#161924" />
-          </TouchableOpacity>
           <View style={styles.box}>
             <Text style={styles.text}>
               Pooki is notification app linked to your wallet!

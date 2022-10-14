@@ -7,10 +7,13 @@ import {
   Image,
   View,
 } from "react-native";
-import { DrawerNavigatorItems } from "react-navigation-drawer";
 import drawer_bg from "../assets/drawer_bg.png";
 import { DisconnectWalletButton } from "./DisconnectWalletButton";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 
 const shortenAddress = (address: string) => {
   return `${address.slice(0, 6)}...${address.slice(
@@ -22,7 +25,7 @@ const shortenAddress = (address: string) => {
 export default function SideBar(props: any) {
   const connector = useWalletConnect();
   return (
-    <ScrollView>
+    <>
       <ImageBackground
         source={drawer_bg}
         style={{ width: undefined, padding: 16, paddingTop: 48 }}
@@ -32,14 +35,18 @@ export default function SideBar(props: any) {
           {connector.connected && shortenAddress(connector.accounts[0])}
         </Text>
       </ImageBackground>
-
-      <View style={styles.container}>
-        <DrawerNavigatorItems {...props} />
-      </View>
+      <DrawerContentScrollView
+        contentContainerStyle={{
+          paddingTop: -10,
+        }}
+        {...props}
+      >
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
       <View style={styles.button}>
         <DisconnectWalletButton />
       </View>
-    </ScrollView>
+    </>
   );
 }
 
@@ -59,11 +66,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     marginVertical: 8,
+    fontFamily: "DMMono-Medium",
   },
   button: {
-    flex: 1,
-    width: "90%",
-    alignSelf: "center",
-    justifyContent: "flex-end",
+    // flex: 1,
+    // width: "90%",
+    // alignSelf: "center",
+    // justifyContent: "flex-end",
+    // marginBottom: 40,
+    padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: "#E4E4E4",
   },
 });

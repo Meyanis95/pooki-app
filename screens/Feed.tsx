@@ -19,6 +19,7 @@ import * as Notifications from "expo-notifications";
 import { registerForPushNotificationsAsync } from "../helpers/registerForPushNotifications";
 import { storePushToken } from "../helpers/storePushToken";
 import { supabase } from "../helpers/supabase";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 interface FeedProps {
   navigation: any;
@@ -59,6 +60,7 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
   const notificationListener: any = useRef();
   const responseListener: any = useRef();
   const [userAddress, setUserAddress] = useState("");
+  const headerHeight = useHeaderHeight();
   useEffect(() => {
     registerForPushNotificationsAsync().then((token: any) => {
       setExpoPushToken(token);
@@ -148,34 +150,27 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
       resizeMode="cover"
       style={styles.image}
     >
-      <View style={styles.container}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={{ alignItems: "flex-end", margin: 16 }}
-            onPress={navigation.openDrawer}
+      <View style={{ height: headerHeight }}></View>
+      <SafeAreaView style={styles.container}>
+        {notifications?.length > 0 ? (
+          <View
+            style={{
+              flex: 1,
+              alignContent: "center",
+              justifyContent: "center",
+              padding: 4,
+            }}
           >
-            <FontAwesome5 name="bars" size={24} color="#161924" />
-          </TouchableOpacity>
-          {notifications?.length > 0 ? (
-            <View
-              style={{
-                flex: 1,
-                alignContent: "center",
-                justifyContent: "center",
-                padding: 4,
-              }}
-            >
-              <FlatList
-                data={notifications.sort((a, b) => b.id - a.id)}
-                renderItem={renderItem}
-                keyExtractor={(item: any) => item.id}
-              ></FlatList>
-            </View>
-          ) : (
-            <NoItems />
-          )}
-        </SafeAreaView>
-      </View>
+            <FlatList
+              data={notifications.sort((a, b) => b.id - a.id)}
+              renderItem={renderItem}
+              keyExtractor={(item: any) => item.id}
+            ></FlatList>
+          </View>
+        ) : (
+          <NoItems />
+        )}
+      </SafeAreaView>
     </ImageBackground>
   );
 };
@@ -183,6 +178,7 @@ export const Feed: React.FunctionComponent<FeedProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 10,
   },
   image: {
     flex: 1,
